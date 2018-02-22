@@ -10,10 +10,13 @@ class slackCommunication(object):
         return self.slack_client.rtm_connect()
 
     # REAL TIME MESSAGE READER FNC
+    # def slackReadRTM(self):
+    #     while True: # While connected, print off connection info
+    #         print(self.slack_client.rtm_read()) 
+    #         time.sleep(1) # in 1 second intervals
+   
     def slackReadRTM(self):
-        while True: # While connected, print off connection info
-            print(self.slack_client.rtm_read()) 
-            time.sleep(1) # in 1 second intervals
+        return self.slack_client.rtm_read()
 
     def parseSlackInput(self, input, botID):
         botATID = '<@' + botID + '>'
@@ -43,17 +46,19 @@ class mainFunc(slackCommunication):
         super(mainFunc, self).__init__()
         # BOTID = self.getBotID(self.appName)
 
+    # if there is input, pass it through and fire off writeToSlack FNC
     def descideWhetherToTakeAction(self, input):
         if input:
             user, message, channel = input
             return self.writeToSlack(channel, message)
-            # Can run functio that does anything here
+            # Can run functio that does anything here!!
 
     def run(self):
         self.slackConnect()
         BOTID = self.getBotID(self.appName)
         while True:
-            self.descideWhetherToTakeAction(self.parseSlackInput(self.slackReadRTM(),BOTID))
+            # print('TRUE!')
+            self.descideWhetherToTakeAction(self.parseSlackInput(self.slackReadRTM(), BOTID))
             time.sleep(1)
 
 
