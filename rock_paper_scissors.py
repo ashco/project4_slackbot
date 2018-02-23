@@ -3,6 +3,7 @@ from random import randint
 user_scores = []
 
 class rockPaperScissors(object):
+    
     def __init__(self):
         self.commands = {
             'rock' : self.rock_response,
@@ -12,7 +13,6 @@ class rockPaperScissors(object):
             'help' : self.help_response,
         }
 
-
     def handle_command(self, command, user):
         command = str.lower(command)
         
@@ -21,7 +21,7 @@ class rockPaperScissors(object):
         else:
             return 'Sorry, I don\'t understand the command: ' + command + '.\n' + self.help_response()
 
-    def help_response(self):
+    def help_response(self, user):
         response = "I am a simple contraption created to kick your ass at Rock, Paper, Scissors. \nPlease enter one of the following commands:\r\n"
          
         for command in self.commands:

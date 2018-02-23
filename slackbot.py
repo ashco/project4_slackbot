@@ -1,16 +1,16 @@
+import os
 from slackclient import SlackClient
 import rock_paper_scissors
 import time
 
 class slackCommunication(object):
     def __init__(self):
-        self.slack_client = SlackClient('xoxb-318344157728-aaRHDSUOlWxo9utrM2Ziej0e')
+        self.slack_client = SlackClient(os.environ.get(SLACK_API))
         self.appName = 'super_bot'
-
         self.rockPaperScissors = rock_paper_scissors.rockPaperScissors()
 
-
     def slackConnect(self):
+        print("super_bot is watching 0.0")
         return self.slack_client.rtm_connect()
 
     def slackReadRTM(self):
@@ -47,7 +47,6 @@ class mainFunc(slackCommunication):
     def decideAction(self, input):
         if input:
             user, message, channel = input
-
             # Determine what FNC's are triggered based off of input
             if message:
                 message = self.rockPaperScissors.handle_command(message, user)
@@ -58,30 +57,8 @@ class mainFunc(slackCommunication):
         self.slackConnect()
         BOTID = self.getBotID(self.appName)
         while True:
-            # print('TRUE!')
             self.decideAction(self.parseSlackInput(self.slackReadRTM(), BOTID))
             time.sleep(1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
