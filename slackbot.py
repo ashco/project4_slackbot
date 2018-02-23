@@ -1,20 +1,18 @@
 from slackclient import SlackClient
+import rock_paper_scissors
 import time
 
 class slackCommunication(object):
     def __init__(self):
         self.slack_client = SlackClient('xoxb-318344157728-aaRHDSUOlWxo9utrM2Ziej0e')
         self.appName = 'super_bot'
-    # print(help(slack_client))
+
+        self.rockPaperScissors = rock_paper_scissors.rockPaperScissors()
+
+
     def slackConnect(self):
         return self.slack_client.rtm_connect()
 
-    # REAL TIME MESSAGE READER FNC
-    # def slackReadRTM(self):
-    #     while True: # While connected, print off connection info
-    #         print(self.slack_client.rtm_read()) 
-    #         time.sleep(1) # in 1 second intervals
-   
     def slackReadRTM(self):
         return self.slack_client.rtm_read()
 
@@ -44,22 +42,47 @@ class slackCommunication(object):
 class mainFunc(slackCommunication):
     def __init__(self):
         super(mainFunc, self).__init__()
-        # BOTID = self.getBotID(self.appName)
+
 
     # if there is input, pass it through and fire off writeToSlack FNC
-    def descideWhetherToTakeAction(self, input):
+    def decideAction(self, input):
         if input:
             user, message, channel = input
+
+            # Determine what FNC's are triggered based off of input
+            message = self.rockPaperScissors.rps_selector(message, user)
+
             return self.writeToSlack(channel, message)
-            # Can run functio that does anything here!!
+            
 
     def run(self):
         self.slackConnect()
         BOTID = self.getBotID(self.appName)
         while True:
             # print('TRUE!')
-            self.descideWhetherToTakeAction(self.parseSlackInput(self.slackReadRTM(), BOTID))
+            self.decideAction(self.parseSlackInput(self.slackReadRTM(), BOTID))
             time.sleep(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

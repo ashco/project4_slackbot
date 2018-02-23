@@ -33,10 +33,10 @@ def test_slackReadRTM(slackCommunication):
     slackCommunication.slackConnect()
     print(slackCommunication.slackReadRTM())
 
-def test_descideWhetherToTakeAction_Message(mainFunc):
+def test_decideAction_Message(mainFunc):
     input = ['U9D7A90VD', 'test02', 'C9D022F8A'] # User / text / channel
-    assert mainFunc.descideWhetherToTakeAction(input)
+    assert mainFunc.decideAction(input)
 
-def test_descideWhetherToTakeAction_None(mainFunc):
+def test_decideAction_None(mainFunc):
     input = [None, None, None] # User / text / channel
-    assert mainFunc.descideWhetherToTakeAction(input)
+    assert mainFunc.decideAction(input)
