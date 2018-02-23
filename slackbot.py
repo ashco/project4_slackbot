@@ -43,17 +43,16 @@ class mainFunc(slackCommunication):
     def __init__(self):
         super(mainFunc, self).__init__()
 
-
     # if there is input, pass it through and fire off writeToSlack FNC
     def decideAction(self, input):
         if input:
             user, message, channel = input
 
             # Determine what FNC's are triggered based off of input
-            message = self.rockPaperScissors.rps_selector(message, user)
+            if message:
+                message = self.rockPaperScissors.handle_command(message, user)
 
             return self.writeToSlack(channel, message)
-            
 
     def run(self):
         self.slackConnect()
